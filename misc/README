@@ -1,4 +1,5 @@
 ontology.py:
 An updated disease ontology can be downloaded from: http://disease-ontology.org/downloads/
 
+The Goatools library for ontology parsing can be downloaded from: https://github.com/tanghaibao/goatools
 

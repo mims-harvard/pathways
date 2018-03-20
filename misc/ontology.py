@@ -1,4 +1,3 @@
-import goatools
 from goatools.obo_parser import GODag
 import numpy as np
 from collections import defaultdict
