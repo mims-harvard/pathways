@@ -1,5 +1,5 @@
 import goatools
-from goatools_parser import GODag
+from goatools.obo_parser import GODag
 import numpy as np
 from collections import defaultdict
 
@@ -24,9 +24,8 @@ class Ontology(object):
 		ontology_map = {}
 		self.category_map = defaultdict(list)
 		for item_id, item in obo_dag.items():
-			umls_codes = item.umls
 			# Considers those diseases whose names are subsets of the disease ontology names
-			correlated_diseases = [disease for disease in diseases if disease in umls_codes]
+			correlated_diseases = [disease for disease in diseases if disease in item.name]
 			if len(correlated_diseases) > 0:
 				d = {}
 				for parent in (obo_dag.paths_to_top(item.id)[0]):
@@ -34,10 +33,10 @@ class Ontology(object):
 					for corr_disease in correlated_diseases:
 						self.category_map[parent.name] += [corr_disease]
 				for corr_disease in correlated_diseases:
-					# Chooses the most general UMLS mapping
+					# Chooses the most specific disease mapping
 					if corr_disease in ontology_map:
-                        if len(ontology_map[corr_disease]) > len(d):
-                            continue
+						if len(ontology_map[corr_disease]) > len(d):
+							continue
 					ontology_map[corr_disease] = d
 		self.dag = obo_dag
 		self.disease_class_map = ontology_map
